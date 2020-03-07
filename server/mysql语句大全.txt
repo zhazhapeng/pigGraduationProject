@@ -1,0 +1,39 @@
+1. 新增记录
+
+insert into 数据表名(字段1,字段2,字段n) values(值1,值2,值n);
+
+如：
+
+insert into news(title,author,content) values('新闻标题','作者','新闻详细内容');
+
+
+注意：值的数量与类型必须与字段列表数量与类型定义一致
+
+
+2. 查看记录
+
+select 字段列表 from 数据表名 where 条件 order by 字段名 desc limit m,n
+
+如：
+
+select * from news;
+
+select * from news where id=10;
+
+select * from news order by id desc limit 10;
+
+
+注意：select语句是SQL中最为强大与复杂的查询语句，有七大子句，每段子句都可以省略，如果出现必须在正确的位置顺序上，不可调换先后位置。
+
+3. 修改记录
+
+update 数据表名 set 字段1=值1 and 字段2=值2 where 条件;
+
+如：
+
+update news set title='新的新闻标题' where id=1;
+
+
+4. 删除记录
+
+delete from 数据表名 where 条件;
