@@ -97,6 +97,11 @@ export default new Router({
                     meta: { title: '个人成绩分析' }
                 },
                 {
+                    path: '/compute',
+                    component: () => import(/* webpackChunkName: "403" */ '../components/admin/compute.vue'),
+                    meta: { title: '计算汇总成绩' }
+                },
+                {
                     path: '/declare',
                     component: () => import(/* webpackChunkName: "403" */ '../components/students/Declare.vue'),
                     meta: { title: '素质成绩申报' }

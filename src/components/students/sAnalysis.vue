@@ -211,34 +211,36 @@ export default {
                             )
                         }
                     }
-                },{
-                    data: this.tableData2.生物,
-                    name: "生物",
-                    type: "line",
-                    smooth: true,
-                    symbol: "none",
-                    lineStyle: { normal: { width: 2 } },
-                    itemStyle: {
-                        normal: {
-                            color: "#52c41a",
-                            lineStyle: {
-                                color: "#52c41a"
-                            }
-                        }
-                    },
-                    areaStyle: {
-                        normal: {
-                            color: new echarts.graphic.LinearGradient(
-                                0, 0, 0, 0,
-                                [
-                                    { offset: 0, color: "#409EFF" },
-                                    { offset: 0.1, color: "#409EFF" },
-                                    { offset: 1, color: "#ffffff" }
-                                ]
-                            )
-                        }
-                    }
-                },{
+                },
+                // {
+                //     data: this.tableData2.生物,
+                //     name: "生物",
+                //     type: "line",
+                //     smooth: true,
+                //     symbol: "none",
+                //     lineStyle: { normal: { width: 2 } },
+                //     itemStyle: {
+                //         normal: {
+                //             color: "#52c41a",
+                //             lineStyle: {
+                //                 color: "#52c41a"
+                //             }
+                //         }
+                //     },
+                //     areaStyle: {
+                //         normal: {
+                //             color: new echarts.graphic.LinearGradient(
+                //                 0, 0, 0, 0,
+                //                 [
+                //                     { offset: 0, color: "#409EFF" },
+                //                     { offset: 0.1, color: "#409EFF" },
+                //                     { offset: 1, color: "#ffffff" }
+                //                 ]
+                //             )
+                //         }
+                //     }
+                // },
+                {
                     data: this.tableData2.化学,
                     name: "化学",
                     type: "line",

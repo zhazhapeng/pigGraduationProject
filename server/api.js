@@ -30,6 +30,26 @@ router.post('/table', (req, res) => {
     })
 })
 
+// 学生信息审核接口
+router.post('/check', (req, res) => {
+    var sql = $sql.user.check;
+    // var params = req.body;
+    console.log(sql);
+    // console.log(params);
+
+    conn.query(sql, function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        if (result) {
+            // console.log(result);
+            res.json(result);
+        }
+    })
+})
+
+
+
 // 学生成绩获取接口
 router.post('/edit', (req, res) => {
     var params = req.body;
@@ -79,6 +99,45 @@ router.post('/analysis', (req, res) => {
 })
 
 
+// 学生素质申报
+router.post('/declare', (req, res) => {
+    var sql = $sql.student.update;
+    var params = req.body;
+    console.log(sql);
+    console.log(params);
+
+    conn.query(sql, [params.xname, params.date, params.state, params.xscore, params.id], function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        if (result) {
+            console.log(result);
+            res.json({
+                code: '1',
+                msg: '修改成功'
+            });
+        }
+    })
+})
+
+// 学生申报信息获取
+router.post('/declare/get', (req, res) => {
+    var sql = $sql.student.get;
+    var params = req.body;
+    console.log(sql);
+    console.log(params);
+
+    conn.query(sql, [params.id], function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        if (result) {
+            console.log(result);
+            res.json(result);
+        }
+    })
+})
+
 
 // 学生信息更改
 router.post('/table/update', (req, res) => {
@@ -88,6 +147,46 @@ router.post('/table/update', (req, res) => {
     console.log(params);
 
     conn.query(sql, [params.name, params.age, params.sex, params.class, params.address, params.id], function (err, result) {
+        if (err) {
+            console.log(err);
+        }
+        if (result) {
+            console.log(result);
+            res.json({
+                code: '1',
+                msg: '修改成功'
+            });
+        }
+    })
+})
+
+
+
+// 学生审核状态更改
+router.post('/check/update', (req, res) => {
+    var sql = $sql.user.cupdate;
+    var params = req.body;
+    console.log(sql);
+    console.log(params);
+    // 审核完成修改分数表
+    if(params.状态=="已审核"){
+        console.log("修改分数");
+        var sqlf="update score1 set 生物=? where id=?";
+        conn.query(sqlf, [params.分数, params.id], function (err, result) {
+            if (err) {
+                console.log(err);
+            }
+            if (result) {
+                console.log("修改完成");
+                // res.json({
+                //     code: '1',
+                //     msg: '修改成功'
+                // });
+            }
+        })
+    }
+
+    conn.query(sql, [params.状态, params.id], function (err, result) {
         if (err) {
             console.log(err);
         }
@@ -215,7 +314,7 @@ router.post('/register', (req, res) => {
                     msg: '账号已注册'
                 });
             } else {
-                sql = $sql.user.add;
+                sql = $sql.user.adduser;
                 conn.query(sql, [params.username, params.email, params.password], function (err, result) {
                     if (err) {
                         console.log(err);

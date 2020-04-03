@@ -88,14 +88,23 @@ export default {
                                     index: 'editor',
                                     title: '成绩录入'
                                 },
+                                // {
+                                //     index:"check",
+                                //     title:"权重指标设置"
+                                // },
+                                {
+                                    index:"compute",
+                                    title:"计算汇总成绩"
+                                },
                                 {
                                     index: 'analysis',
                                     title: '成绩分析'
                                 },
                                 {
                                     index:"check",
-                                    title:"成绩审核"
-                                }
+                                    title:"拓展素质成绩审核"
+                                },
+
                             ]
                         },
                         {

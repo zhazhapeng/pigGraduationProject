@@ -1,14 +1,41 @@
 <template>
-  <div>
-    <template>
+  <div class="wrapper">
       <el-row>
         <el-col :span="8">
-          <h4>健康生活，快乐工作，今日快乐指数(～￣▽￣)～</h4>
+          <h4>权重指标设置</h4>
         </el-col>
-        <el-col :offset="2" :span="10">
-          <el-rate v-model="value" show-text></el-rate>
+      </el-row>
+     <el-row style="margin-top:20px">
+        <el-col :offset="1" :span="13">
+          <h5>第二课堂=道德评价与表现*
+          <input style="width:30px" v-model="daode" :span="1" size="mini">
+          +卫生管理*
+          <input style="width:30px" v-model="weisheng" size="mini">
+          +体育*
+          <input style="width:30px" v-model="tiyu" size="mini">
+           +素质拓展*
+          <input style="width:30px" v-model="suzhi" size="mini">
+          </h5>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="8">
+          <h5>综合成绩=学习成绩*
+          <input style="width:30px" v-model="xuexi" :span="1" size="mini">
+          +第二课堂*
+          <input style="width:30px" v-model="dier" size="mini">
+          </h5>
+        </el-col>
+      </el-row>
+      <el-row style="margin-top:25px">
+        <el-col :offset="10">
+           <el-button @click="run" type="primary" round>生成成绩</el-button>
+        </el-col>
+      </el-row>
+
+
+  <!-- 成绩汇总表 -->
+<template>
+  <el-row> 
+        <el-col :offset="20" :span="4">
           <el-select v-model="term" @change="cterm" placeholder="请选择学期">
             <el-option label="第一学期" value="first_s"></el-option>
             <el-option label="第二学期" value="second_s"></el-option>
@@ -26,14 +53,16 @@
         border
         style="width: 100%"
       >
-        <el-table-column prop="id" label="学号" width="180"></el-table-column>
-        <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-        <el-table-column prop="语文" label="语文" width="90"></el-table-column>
-        <el-table-column prop="数学" label="数学" width="90"></el-table-column>
-        <el-table-column prop="英语" label="英语" width="90"></el-table-column>
-        <el-table-column prop="物理" label="物理" width="90"></el-table-column>
-        <el-table-column prop="化学" label="化学" width="90"></el-table-column>
-        <el-table-column prop="生物" label="生物" width="90"></el-table-column>
+        <el-table-column prop="id" label="学号" width="100"></el-table-column>
+        <el-table-column prop="name" label="姓名" width="100"></el-table-column>
+        <el-table-column prop="语文" label="必修" width="90"></el-table-column>
+        <el-table-column prop="数学" label="选修" width="90"></el-table-column>
+        <el-table-column prop="英语" label="道德" width="90"></el-table-column>
+        <el-table-column prop="物理" label="卫生" width="90"></el-table-column>
+        <el-table-column prop="化学" label="体育" width="90"></el-table-column>
+        <el-table-column prop="生物" label="素质拓展" width="90"></el-table-column>
+        <el-table-column prop="dier" label="第二课堂" width="90"></el-table-column>
+        <el-table-column prop="zonghe" label="综合成绩" width="90"></el-table-column>
         <el-table-column prop="class" label="班级"></el-table-column>
 
         <el-table-column fixed="right" width="200">
@@ -58,78 +87,34 @@
       <el-row :gutter="50">
         <el-col :span="6" :offset="18">
           <el-button class="el-icon-share" @click="dao" type="success" round>导出excel表</el-button>
-          <el-button class="el-icon-edit" @click="shuaxin" type="primary" round>更新数据</el-button>
+          <!-- <el-button class="el-icon-edit" @click="addstu" type="primary" round>添加学生</el-button> -->
         </el-col>
       </el-row>
-    </template>
 
-    <!-- 修改某个学生 -->
-    <el-dialog title="修改信息" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="姓名" :label-width="formLabelWidth">
-          <el-col :span="8">
-            <span>{{form.name}}</span>
-          </el-col>
-        </el-form-item>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="语文" :label-width="formLabelWidth">
-              <el-input v-model="form.语文" autocomplete="off"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :offset="6" :span="6">
-            <el-form-item label="数学" :label-width="formLabelWidth">
-              <el-input v-model="form.数学" autocomplete="off"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="英语" :label-width="formLabelWidth">
-              <el-input v-model="form.英语" autocomplete="off"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :offset="6" :span="6">
-            <el-form-item label="物理" :label-width="formLabelWidth">
-              <el-input v-model="form.物理" autocomplete="off"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="化学" :label-width="formLabelWidth">
-              <el-input v-model="form.化学" autocomplete="off"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :offset="6" :span="6">
-            <el-form-item label="生物" :label-width="formLabelWidth">
-              <el-input v-model="form.生物" autocomplete="off"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-col :offset="8" :span="8">
-          <el-form-item label="班级" :label-width="formLabelWidth">
-            <span>{{this.form.class+"班"}}</span>
-          </el-form-item>
-        </el-col>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="config">确认修改</el-button>
-      </div>
-    </el-dialog>
+</template>
+
+
+
   </div>
 </template>
 
 <script>
 import XLSX from "xlsx";
 export default {
-  name: "edit",
   inject:['reload'], //刷新时注入reload方法
+  name:'compute',
   data() {
     return {
+        daode:'',
+        weisheng:'',
+        xuexi:'',
+        suzhi:'',
+        tiyu:'',
+        dier:'',
+
       tableData: [],
       id: "",
+      // result:[],
       currentPage: 1,
       pagesize: 7,
       total: 0,
@@ -137,7 +122,6 @@ export default {
       name: "first_s",
       term: "",
       value: null,
-      iconClasses: ["icon-rate-face-1", "icon-rate-face-2", "icon-rate-face-3"], // 等同于 { 2: 'icon-rate-face-1', 4: { value: 'icon-rate-face-2', excluded: true }, 5: 'icon-rate-face-3' },
       formLabelWidth: "60px",
       dialogFormVisible: false,
       // view:'',
@@ -161,15 +145,13 @@ export default {
     };
   },
 
-  created() {
+   created() {
     this.getdata();
   },
+
   methods: {
-    shuaxin(){
-      this.reload();
-    },
     handleClick(row) {
-      console.log(row);
+      // console.log(row);
       this.dialogFormVisible = true;
       for (let key in row) {
         this.form[key] = row[key];
@@ -178,17 +160,24 @@ export default {
     },
     cterm() {
       this.name = this.term;
-      console.log(this.term);
+      // console.log(this.term);
       this.getdata();
     },
     getdata() {
       var url = "/api/edit";
+      // var result = [];
       this.$axios.post(url, { name: this.name }).then(res => {
-        this.tableData = res.data;
-        this.total = this.tableData.length;
-        console.log(res.data);
+         var result = res.data;
+        this.total = result.length;
+        // console.log(res.data);
         this.lastid = res.data[this.total - 1].id;
+        this.show(result);
       });
+      
+    },
+    show(res){
+    
+      this.tableData = res;
     },
     config() {
       this.dialogFormVisible = false;
@@ -196,7 +185,7 @@ export default {
       this.$axios
         .post(url, { form: this.form, table: this.table[this.name] })
         .then(res => {
-          console.log(res);
+          // console.log(res);
           if (res.data.code == 1) {
             this.$message({
               message: "录入成功",
@@ -206,6 +195,22 @@ export default {
         });
 
       this.getdata();
+    },
+
+    run(){
+      // 配置完成后生成分数
+      // console.log(this.tableData);
+      var newdata=this.tableData;
+      for(var key in newdata){
+        var dier=newdata[key].英语*this.daode+newdata[key].物理*this.weisheng+newdata[key].生物*this.suzhi+newdata[key].化学*this.tiyu;
+        var zonghe=(newdata[key].语文*0.6+newdata[key].数学*0.4)*this.xuexi+dier*this.dier;
+        newdata[key].dier=dier.toFixed(2);
+        newdata[key].zonghe=zonghe.toFixed(2);
+      }
+      // this.reload();
+      this.show(newdata);
+      this.handleSizeChange(8);
+
     },
     dao() {
       // 导出excel表
@@ -225,6 +230,8 @@ export default {
   }
 };
 </script>
-
 <style scoped>
+.wrapper{
+  height: 150%;
+}
 </style>

@@ -1,4 +1,4 @@
-<template>
+/* <template>
   <div>
     <div class="crumbs">
       <el-breadcrumb separator="/">
@@ -29,6 +29,36 @@
               <el-step title="审批" icon="el-icon-picture"></el-step>
             </el-steps>
           </div>
+  <!-- 日期选择器 -->
+          <template>
+            <el-row>
+
+        <el-col :span="8">
+        <div class="block">
+          <span class="demonstration">项目名称</span>
+          <el-input v-model="xname" style="width:180px" placeholder="请输入项目名称"></el-input>
+        </div>
+        </el-col>
+        <el-col :span="8">
+        <div class="block">
+          <span class="demonstration">申报分数</span>
+          <el-input v-model="xscore" style="width:180px" placeholder="请输入申报分数"></el-input>
+        </div>
+        </el-col>
+        <el-col :span="8">
+        <div class="block">
+          <span class="demonstration">日期</span>
+          <el-date-picker
+            v-model="date"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </div>
+        </el-col>
+        </el-row>
+      </template>
+
+
           <quill-editor ref="myTextEditor" v-model="content" :options="editorOption"></quill-editor>
           <el-button class="editor-btn" type="primary" @click="submit">提交</el-button>
         </div>
@@ -68,6 +98,10 @@ export default {
   data: function() {
     return {
         buzhou:1,
+         date: '',
+         xname:'',
+         xscore:'',
+         name: localStorage.getItem('username'),
       content: "",
       editorOption: {
         placeholder: "点击此处进行编辑"
@@ -78,15 +112,61 @@ export default {
     VueCropper,
     quillEditor
   },
+
+  created(){
+    this.getData();
+  },
   methods: {
     onEditorChange({ editor, html, text }) {
       this.content = html;
     },
+
+    getData(){
+        var url="/api/declare/get";
+        this.$axios.post(url,{id:this.name}).then(res=>{
+          var data = res.data;
+          console.log("data: "+data);
+          this.xname=data[0].项目名称;
+          this.date=data[0].提交时间;
+          this.xscore=data[0].分数;
+          if(data[0].状态=="已审核"){
+            this.buzhou=3;
+          }
+
+        })
+    },
+
+
     submit() {
-      console.log(this.content);
+      var cdate=this.getTime(this.date);
+      console.log("date: "+cdate);
+      var url = "/api/declare";
+      this.$axios.post(url, {id:this.name,xname:this.xname,xscore:this.xscore,state:"未审核",date:cdate}).then(res => {
+        // console.log(res);
+      });
+
+
+      // console.log(this.content);
       this.buzhou=2;
       this.$message.success("提交成功！");
-    }
+    },
+    getTime(val){
+    if (val&val instanceof Date){
+      var d = val;
+    }else{
+      var d = new Date();
+    };
+    var year = d.getFullYear();
+    var mouth = (d.getMonth() + 1) < 10 ? ('0' + (d.getMonth() + 1)) : (d.getMonth() + 1);
+    var day = d.getDate() < 10 ? ('0' + d.getDate()) : d.getDate();
+    // var hour = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
+    // var minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
+    // var second = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
+    var curTime = year + '-' + mouth + '-' + day;
+    return curTime
+  }
+
+
   }
 };
 </script>
@@ -132,4 +212,4 @@ export default {
   opacity: 0;
   cursor: pointer;
 }
-</style>
+</style> */
